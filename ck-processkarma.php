@@ -21,13 +21,13 @@ require_once('../../../wp-includes/functions.php');
 // CSRF attack protection. Check the Referal field to be the same
 // domain of the script
 
-$k_id = strip_tags($wpdb->escape($_GET['id']));
-$k_action = strip_tags($wpdb->escape($_GET['action']));
-$k_path = strip_tags($wpdb->escape($_GET['path']));
-$k_imgIndex = strip_tags($wpdb->escape($_GET['imgIndex']));
+$k_id = $wpdb->escape( filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT ) );
+$k_action = strip_tags( $wpdb->escape( $_GET['action'] ) );
+$k_path = $wpdb->escape( plugin_dir_url( __FILE__ ) );
+$k_imgIndex = strip_tags( $wpdb->escape( $_GET['imgIndex'] ) );
 
 // prevent SQL injection
-if (!is_numeric($k_id)) die('error|Query error');
+//if (!is_numeric($k_id)) die('error|Query error');
 
 $table_name = $wpdb->prefix . 'comment_rating';
 $comment_table_name = $wpdb->prefix . 'comments';

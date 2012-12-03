@@ -242,8 +242,7 @@ function ckrating_get_rating($comment_id)
 function ckrating_display_content()
 {
    global $ck_cache;
-   $plugin_path = get_bloginfo('wpurl').'/wp-content/plugins/comment-rating';
-   $ck_link = str_replace('http://', '', get_bloginfo('wpurl'));
+   $plugin_path = plugin_dir_url( __FILE__ );
    $ck_comment_ID = get_comment_ID();
    $content = '';
    ckrating_get_rating($ck_comment_ID);
@@ -266,11 +265,11 @@ function ckrating_display_content()
       else
          // enlarge
          $imgStyle = 'style="padding: 0px; border: none; cursor: pointer;" onmouseover="this.width=this.width*1.3" onmouseout="this.width=this.width/1.2"';
-//      $onclick_add = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'add', '{$ck_link}/wp-content/plugins/comment-rating/', '$imgIndex');\" title=\"". __('Thumb up','ckrating'). "\"";
-//      $onclick_sub = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'subtract', '{$ck_link}/wp-content/plugins/comment-rating/', '$imgIndex')\" title=\"". __('Thumb down', 'ckrating') ."\"";
+//      $onclick_add = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'add', '{$plugin_path}', '$imgIndex');\" title=\"". __('Thumb up','ckrating'). "\"";
+//      $onclick_sub = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'subtract', '{$plugin_path}', '$imgIndex')\" title=\"". __('Thumb down', 'ckrating') ."\"";
 //EP-12-31-2009 Replaced two lines above with line below for Tooltip Text option.  I think __() is the localization. We shouldn't need that for these strings now. 
-      $onclick_add = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'add', '{$ck_link}/wp-content/plugins/comment-rating/', '$imgIndex');\" title=\"". get_option('ckrating_up_alt_text')."\"";
-      $onclick_sub = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'subtract', '{$ck_link}/wp-content/plugins/comment-rating/', '$imgIndex')\" title=\"".get_option('ckrating_down_alt_text')."\"";
+      $onclick_add = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'add', '{$plugin_path}', '$imgIndex');\" title=\"". get_option('ckrating_up_alt_text')."\"";
+      $onclick_sub = "onclick=\"javascript:ckratingKarma('$ck_comment_ID', 'subtract', '{$plugin_path}', '$imgIndex')\" title=\"".get_option('ckrating_down_alt_text')."\"";
    }
 
    $total = $ck_cache['ck_rating_up'] - $ck_cache['ck_rating_down'];
@@ -296,13 +295,13 @@ function ckrating_display_content()
    // apply ckrating_vote_type
    if ( get_option('ckrating_vote_type') != 'dislikes' )
    {
-      $content .= " <img $imgStyle id=\"up-$ck_comment_ID\" src=\"{$plugin_path}/images/$imgUp\" alt=\"".__('Thumb up', 'ckrating') ."\" $onclick_add />";
+      $content .= " <img $imgStyle id=\"up-$ck_comment_ID\" src=\"{$plugin_path}images/$imgUp\" alt=\"".__('Thumb up', 'ckrating') ."\" $onclick_add />";
       if ( get_option('ckrating_value_display') != 'one' )
          $content .= " <span id=\"karma-{$ck_comment_ID}-up\" $likesStyle>{$ck_cache['ck_rating_up']}</span>";
    }
    if ( get_option('ckrating_vote_type') != 'likes' )
    {
-      $content .= "&nbsp;<img $imgStyle id=\"down-$ck_comment_ID\" src=\"{$plugin_path}/images/$imgDown\" alt=\"". __('Thumb down', 'ckrating')."\" $onclick_sub />"; //Phew
+      $content .= "&nbsp;<img $imgStyle id=\"down-$ck_comment_ID\" src=\"{$plugin_path}images/$imgDown\" alt=\"". __('Thumb down', 'ckrating')."\" $onclick_sub />"; //Phew
       if ( get_option('ckrating_value_display') != 'one' )
          $content .= " <span id=\"karma-{$ck_comment_ID}-down\" $dislikesStyle>{$ck_cache['ck_rating_down']}</span>";
    }
@@ -322,8 +321,7 @@ function ckrating_display_content()
 function ckrating_display_sidebar($ck_comment_ID)
 {
    global $ck_cache;
-   $plugin_path = get_bloginfo('wpurl').'/wp-content/plugins/comment-rating';
-   $ck_link = str_replace('http://', '', get_bloginfo('wpurl'));
+   $plugin_path = plugin_dir_url( __FILE__ );
    $content = '';
    ckrating_get_rating($ck_comment_ID);
 
@@ -343,13 +341,13 @@ function ckrating_display_sidebar($ck_comment_ID)
    // Use ckrating_karma_type to determine the image shape
    if ( get_option('ckrating_karma_type') != 'dislikes' )
    {
-      $content .= "&nbsp;<img $imgStyle src=\"{$plugin_path}/images/$imgUp\" alt=\"".__('Thumb up', 'ckrating') ."\" $onclick_add />";
+      $content .= "&nbsp;<img $imgStyle src=\"{$plugin_path}images/$imgUp\" alt=\"".__('Thumb up', 'ckrating') ."\" $onclick_add />";
       if ( get_option('ckrating_value_display') != 'one' )
          $content .= "&nbsp;<span $likesStyle>{$ck_cache['ck_rating_up']}</span>";
    }
    if ( get_option('ckrating_karma_type') != 'likes' )
    {
-      $content .= "&nbsp;<img $imgStyle src=\"{$plugin_path}/images/$imgDown\" alt=\"". __('Thumb down', 'ckrating')."\" $onclick_sub />"; //Phew
+      $content .= "&nbsp;<img $imgStyle src=\"{$plugin_path}images/$imgDown\" alt=\"". __('Thumb down', 'ckrating')."\" $onclick_sub />"; //Phew
       if ( get_option('ckrating_value_display') != 'one' )
          $content .= "&nbsp;<span $dislikesStyle>{$ck_cache['ck_rating_down']}</span>";
    }
